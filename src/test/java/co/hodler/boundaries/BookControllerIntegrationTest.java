@@ -1,11 +1,11 @@
 package co.hodler.boundaries;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -13,23 +13,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.Collections;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@RunWith(MockitoJUnitRunner.class)
-public class BookControllerTest {
+@WebMvcTest(BookController.class)
+@RunWith(SpringRunner.class)
+public class BookControllerIntegrationTest {
+    @MockBean
+    private BookRepository repo;
 
+    @Autowired
     private MockMvc mockMvc;
-
-    @Mock
-    BookRepository repo;
-
-    @InjectMocks
-    BookController controller;
-
-    @Before
-    public void before_each() {
-        this.mockMvc = standaloneSetup(controller).build();
-    }
 
     @Test
     public void can_provide_books() throws Exception {
